@@ -1,0 +1,15 @@
+# Flutter/Dart related
+**/build/
+**/android/.gradle/
+**/android/app/google-services.json
+**/ios/Pods/
+**/ios/Runner/GoogleService-Info.plist
+**/.dart_tool/
+**/.flutter-plugins/
+**/.flutter-plugins-dependencies/
+**/.packages
+**/.idea/
+**/.vscode/
+**/*.iml
+**/pubspec.lock
+**/flutter_export_environment.sh
