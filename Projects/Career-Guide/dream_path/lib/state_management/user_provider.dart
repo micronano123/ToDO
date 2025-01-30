@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class UserPovider with ChangeNotifier{
+class UserProvider with ChangeNotifier{
   String _name = "Takatso Molekane";
   String _email = "takatso.molekane@gmail.com";
   String _hollandCode = "RIA";

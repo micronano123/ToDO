@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../state_management/user_provider.dart';
 
 class ProfileScreen extends StatefulWidget{
   @override
@@ -6,11 +8,6 @@ class ProfileScreen extends StatefulWidget{
 }
 
 class _ProfileScreenState extends State<ProfileScreen>{
-  //Dummy user data
-  String _name = "Takatso Molekane";
-  String _email = "takatso.molekane@gmail.com";
-  String _hollandCode = "RIA";
-  List<String> _savedCareers = ["Mechanical Engineer","Architect"];
 
   //Controllers for editing name and email
   final TextEditingController _nameController = TextEditingController();
@@ -19,8 +16,9 @@ class _ProfileScreenState extends State<ProfileScreen>{
   @override
   void initState(){
     super.initState();
-    _nameController.text = _name;
-    _emailController.text = _email;
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    _nameController.text = userProvider.name;
+    _emailController.text = userProvider.email;
   }
 
   @override
@@ -30,7 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen>{
     super.dispose();
   }
 
-  void _editProfile(){
+  void _editProfile(BuildContext context){
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     showDialog(
         context: context,
         builder: (context) {
@@ -58,10 +57,11 @@ class _ProfileScreenState extends State<ProfileScreen>{
               ),
               TextButton(
                   onPressed: (){
-                    setState(() {
-                      _name = _nameController.text;
-                      _email = _emailController.text;
-                    });
+                    userProvider.updateProfile(
+                      _nameController.text,
+                      _emailController.text,
+                    );
+                    Navigator.pop(context);
                   },
                   child: Text("Save"),
               ),
@@ -71,19 +71,19 @@ class _ProfileScreenState extends State<ProfileScreen>{
     );
   }
 
-
   void _logout(){
     Navigator.pop(context); //Go back to previous screen
   }
 
   @override
   Widget build(BuildContext context){
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
         actions: [
           IconButton(
-              onPressed: _editProfile,
+              onPressed: () => _editProfile(context),
               icon: Icon(Icons.edit),
           ),
           IconButton(
@@ -98,19 +98,19 @@ class _ProfileScreenState extends State<ProfileScreen>{
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "personal Information",
+              "Personal Information",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
             ListTile(
               leading: Icon(Icons.person),
               title: Text("Name"),
-              subtitle: Text(_name),
+              subtitle: Text(userProvider.name),
             ),
             ListTile(
               leading: Icon(Icons.email),
               title: Text("Email"),
-              subtitle: Text(_email),
+              subtitle: Text(userProvider.email),
             ),
             SizedBox(height: 20),
             Text(
@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
             ListTile(
               leading: Icon(Icons.assignment),
               title: Text("Your Holland Code"),
-              subtitle: Text(_hollandCode),
+              subtitle: Text(userProvider.hollandCode),
             ),
             SizedBox(height: 20),
             Text(
@@ -129,11 +129,11 @@ class _ProfileScreenState extends State<ProfileScreen>{
             ),
             Expanded(
                 child: ListView.builder(
-                  itemCount: _savedCareers.length,
+                  itemCount: userProvider.savedCareers.length,
                   itemBuilder: (context, index){
                     return ListTile(
                       leading: Icon(Icons.work),
-                      title: Text(_savedCareers[index]),
+                      title: Text(userProvider.savedCareers[index]),
                     );
                   },
                 ),
