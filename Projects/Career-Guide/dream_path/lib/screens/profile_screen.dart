@@ -17,8 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen>{
   void initState(){
     super.initState();
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    _nameController.text = userProvider.name;
-    _emailController.text = userProvider.email;
+    _nameController.text = userProvider.user.name;
+    _emailController.text = userProvider.user.email;
   }
 
   @override
@@ -105,12 +105,12 @@ class _ProfileScreenState extends State<ProfileScreen>{
             ListTile(
               leading: Icon(Icons.person),
               title: Text("Name"),
-              subtitle: Text(userProvider.name),
+              subtitle: Text(userProvider.user.name),
             ),
             ListTile(
               leading: Icon(Icons.email),
               title: Text("Email"),
-              subtitle: Text(userProvider.email),
+              subtitle: Text(userProvider.user.email),
             ),
             SizedBox(height: 20),
             Text(
@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen>{
             ListTile(
               leading: Icon(Icons.assignment),
               title: Text("Your Holland Code"),
-              subtitle: Text(userProvider.hollandCode),
+              subtitle: Text(userProvider.user.hollandCode),
             ),
             SizedBox(height: 20),
             Text(
@@ -129,11 +129,11 @@ class _ProfileScreenState extends State<ProfileScreen>{
             ),
             Expanded(
                 child: ListView.builder(
-                  itemCount: userProvider.savedCareers.length,
+                  itemCount: userProvider.user.savedCareers.length,
                   itemBuilder: (context, index){
                     return ListTile(
                       leading: Icon(Icons.work),
-                      title: Text(userProvider.savedCareers[index]),
+                      title: Text(userProvider.user.savedCareers[index]),
                     );
                   },
                 ),

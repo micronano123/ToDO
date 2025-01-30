@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
+import '../models/user_model.dart';
 
 class UserProvider with ChangeNotifier{
-  String _name = "Takatso Molekane";
-  String _email = "takatso.molekane@gmail.com";
-  String _hollandCode = "RIA";
-  List<String> _savedCareers = ["Mechanical Engineer","Architect"];
+  UserModel _user = UserModel(
+      name: "Takatso Molekane",
+      email: "takatso.molekane@gmail.com",
+  );
 
-  String get name => _name;
-  String get email => _email;
-  String get hollandCode => _hollandCode;
-  List<String> get savedCareers => _savedCareers;
+  UserModel get user => _user;
 
   void updateProfile(String name, String email){
-    _name = name;
-    _email = email;
+    _user.updateProfile(name,email);
     notifyListeners();
   }
 
   void setHollandCode(String code){
-    _hollandCode = code;
+    _user.setHollandCode(code);
     notifyListeners();
   }
 
   void addSavedCareer(String career){
-    _savedCareers.add(career);
+    _user.addSavedCareer(career);
     notifyListeners();
   }
 
